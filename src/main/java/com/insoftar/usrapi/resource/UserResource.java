@@ -12,7 +12,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/user")
+@CrossOrigin(origins = "*")
+@RequestMapping("/usuario")
 public class UserResource {
 
     @Autowired

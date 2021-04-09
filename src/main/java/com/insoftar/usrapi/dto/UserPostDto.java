@@ -15,4 +15,5 @@ public class UserPostDto {
     private Integer cedula;
     private String correo;
     private Integer telefono;
+    private String genero;
 }

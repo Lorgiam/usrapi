@@ -19,6 +19,7 @@ public class User {
     private String apellidos;
     private Integer cedula;
     private String correo;
+    private String genero;
     private Integer telefono;
 
 }

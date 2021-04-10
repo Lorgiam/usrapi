@@ -24,6 +24,21 @@ public class UserResource {
         return  this.userService.findAll();
     }
 
+    @GetMapping("/findById/{id}")
+    public Mono<User> findById(@PathVariable("id") String id){
+        return  this.userService.findById(id);
+    }
+
+    @GetMapping("/validateCorreo/{correo}/{id}")
+    public Mono<Integer> validateCorreo(@PathVariable("correo") String correo,@PathVariable("id") String id){
+        return  this.userService.validateCorreo(correo,id);
+    }
+
+    @GetMapping("/validateCedula/{cedula}/{id}")
+    public Mono<Integer> validateCedula(@PathVariable("cedula") Integer cedula,@PathVariable("id") String id){
+        return  this.userService.validateCedula(cedula,id);
+    }
+
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     private Mono<User> save(@RequestBody UserPostDto userPostDto) {

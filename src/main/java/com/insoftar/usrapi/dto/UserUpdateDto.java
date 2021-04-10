@@ -14,6 +14,6 @@ public class UserUpdateDto {
     private String apellidos;
     private Integer cedula;
     private String correo;
-    private Integer telefono;
+    private Long telefono;
     private String genero;
 }

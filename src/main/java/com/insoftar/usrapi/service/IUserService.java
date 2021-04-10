@@ -12,4 +12,6 @@ public interface IUserService {
   Mono<User> save(UserPostDto userPostDto);
   Mono<User> update(String id, UserUpdateDto userUpdateDto);
   Mono<User> delete(String id);
+  Mono<Integer> validateCorreo(String correo,String id);
+  Mono<Integer> validateCedula(Integer cedula,String id);
 }

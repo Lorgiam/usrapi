@@ -7,6 +7,11 @@ import com.insoftar.usrapi.repository.UserRepository;
 import com.insoftar.usrapi.service.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,6 +22,8 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ReactiveMongoTemplate mongoTemplate;
 
     @Autowired
     private ModelMapper mapper;
@@ -50,6 +57,32 @@ public class UserServiceImpl implements IUserService {
         return this.userRepository
                 .findById(id)
                 .flatMap(usr -> this.userRepository.deleteById(usr.getId()).thenReturn(usr));
+    }
+
+    @Override
+    public Mono<Integer> validateCorreo(String correo,String id) {
+        return this.mongoTemplate.findOne(Query.query(Criteria.where("correo").is(correo)),User.class)
+                .flatMap(usr -> {
+                    if(usr.getId().equals(id)){
+                        return Mono.just(2);
+                    }else{
+                        return Mono.just(1);
+                    }
+                })
+                .switchIfEmpty(Mono.just(0));
+    }
+
+    @Override
+    public Mono<Integer> validateCedula(Integer cedula,String id) {
+        return this.mongoTemplate.findOne(Query.query(Criteria.where("cedula").is(cedula)),User.class)
+                .flatMap(usr -> {
+                    if(usr.getId().equals(id)){
+                        return Mono.just(2);
+                    }else{
+                        return Mono.just(1);
+                    }
+                })
+                .switchIfEmpty(Mono.just(0));
     }
 
     public UserPostDto mapToDto(User user){
